@@ -1,7 +1,6 @@
-type Props = {
+type Props = React.ComponentProps<"button"> & {
   name: string;
-  onClick?(): void;
 };
-export function Button(props: Props) {
-  return <button onClick={props.onClick}>{props.name}</button>;
+export function Button({ onClick, name }: Props) {
+  return <button onClick={onClick}>{name}</button>;
 }
