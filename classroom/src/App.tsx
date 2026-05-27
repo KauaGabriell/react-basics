@@ -1,17 +1,17 @@
 import "./global.module.css";
 import { Button } from "./components/button";
+import { useCounter } from "./hooks/useCounter";
 
 import styles from "./app.module.css";
-import { useMessage } from "./hooks/useMessage";
 
 export function App() {
-  const name = useMessage();
+  const { count, increment, decrement } = useCounter();
 
   return (
     <div className={styles.container}>
-      <Button onClick={() => name.show("Kauã")} name="Adicionar" />
-      <span>0</span>
-      <Button name="Remover" />
+      <Button name="Adicionar" onClick={increment} />
+      <span>{count}</span>
+      <Button name="Remover" onClick={decrement} />
     </div>
   );
 }
