@@ -1,5 +1,7 @@
 import "./App.css";
 import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 type FormData = {
   name: string;
@@ -7,15 +9,29 @@ type FormData = {
   subject: string;
   description: string;
 };
+const schema = yup.object({
+  name: yup.string().required("Nome é obrigatório"),
+  date: yup.string().required("Data é obrigatória"),
+  subject: yup.string().required("Selecione um assunto"),
+  description: yup
+    .string()
+    .required("Descrição é obrigatória")
+    .min(5, "A descrição precisa ter pelo menos 5 digítos"),
+});
 
 export default function App() {
-  const { control, handleSubmit } = useForm<FormData>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
     defaultValues: {
       name: "",
       date: "",
       subject: "",
       description: "",
     },
+    resolver: yupResolver(schema),
   });
 
   function onSubmit(data: FormData) {
@@ -35,7 +51,9 @@ export default function App() {
           )}
         />
 
-        <span className="error">Nome é obrigatório</span>
+        {errors.name?.message && (
+          <span className="error">Nome é obrigatório</span>
+        )}
 
         <Controller
           control={control}
@@ -49,6 +67,9 @@ export default function App() {
             />
           )}
         />
+        {errors.date?.message && (
+          <span className="error">Data é obrigatória</span>
+        )}
 
         <Controller
           control={control}
@@ -66,7 +87,9 @@ export default function App() {
             </select>
           )}
         />
-
+        {errors.subject?.message && (
+          <span className="error">Tipo é obrigatório</span>
+        )}
         <Controller
           control={control}
           name="description"
@@ -74,7 +97,9 @@ export default function App() {
             <textarea placeholder="Descrição" rows={4} {...field} />
           )}
         />
-
+        {errors.description?.message && (
+          <span className="error">Descrição é obrigatória</span>
+        )}
         <button type="submit">Salvar</button>
       </form>
     </div>
