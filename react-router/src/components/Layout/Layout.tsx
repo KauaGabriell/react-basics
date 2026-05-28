@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 export function Layout() {
   return (
     <div>
-      <header>
+      <header className={styles.header}>
         <span>Olá Kauã</span>
       </header>
       <Outlet />
